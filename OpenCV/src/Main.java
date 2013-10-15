@@ -17,7 +17,9 @@ public class Main {
     	Mat templ = Highgui.imread(fileLoc + "templ1.jpg");
     	Mat img = Highgui.imread(fileLoc + "img1.jpg");
     	
+    	//-------------------------------------------------------------------------------
     	// Template Matching
+    	//-------------------------------------------------------------------------------
     	
         int result_cols = img.cols() - templ.cols() + 1;
         int result_rows = img.rows() - templ.rows() + 1;
@@ -37,50 +39,50 @@ public class Main {
             matchLoc = mmr.maxLoc;
         }
         
-        // Draw green box around the target
+        // Draw blue box around the target
         Core.rectangle(img, matchLoc, new Point(matchLoc.x + templ.cols(),
-                matchLoc.y + templ.rows()), new Scalar(0, 255, 0));
+                matchLoc.y + templ.rows()), new Scalar(255, 0, 0));
 
 
         // Output an image
         Highgui.imwrite(fileLoc + "template-output.jpg", img);
 
-    	
-    	
-    	
-    	
+        
+        
 
-//        Mat imageHSV = new Mat(image.size(), Core.DEPTH_MASK_8U);
-//        Mat imageBlurr = new Mat(image.size(), Core.DEPTH_MASK_8U);
-//        Mat imageA = new Mat(image.size(), Core.DEPTH_MASK_ALL);
-//        Imgproc.cvtColor(image, imageHSV, Imgproc.COLOR_BGR2GRAY);
-//        Imgproc.GaussianBlur(imageHSV, imageBlurr, new Size(5,5), 0);
-//        Imgproc.adaptiveThreshold(imageBlurr, imageA, 255,Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY,7, 5);
-//
-//   
-//        
-//
-//        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();    
-//        Imgproc.findContours(imageA, contours, new Mat(), Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
-//        Imgproc.drawContours(imageBlurr, contours, 1, new Scalar(0,0,255));
-//        for(int i=0; i< contours.size();i++){
-//        	System.out.println(Imgproc.contourArea(contours.get(i)));
-//        	if (Imgproc.contourArea(contours.get(i)) > 50 ){
-//        		Rect rect = Imgproc.boundingRect(contours.get(i));
-//        		System.out.println(rect.height);
-//        		if (rect.height > 28){
-//        			Core.rectangle(image, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height),new Scalar(0,0,255));
-//        		}
-//        	}
-//        }
-//     	
-//    	
-//        Highgui.imwrite(fileLoc + "output2.jpg", imageBlurr);
-//
-//        Highgui.imwrite(fileLoc + "output.jpg", image);
-//        
-//    	
-    
+    	//-------------------------------------------------------------------------------
+        // Draw Contour
+    	//-------------------------------------------------------------------------------
+    	
+        Mat mat = Highgui.imread(fileLoc + "img1.jpg");
+        Mat grey = new Mat();
+
+        Imgproc.cvtColor(mat, grey, Imgproc.COLOR_BGR2GRAY);
+        Highgui.imwrite(fileLoc + "template-output2.jpg", grey);
+
+        Imgproc.blur(grey, grey, new Size(3,3));
+       
+        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        Mat hierarchy = new Mat();
+        Mat canny_out = new Mat();
+        int thresh = 30;											// how to set it
+        
+        
+
+        Imgproc.Canny(grey, canny_out, thresh, thresh*2);
+        
+        Highgui.imwrite(fileLoc + "template-output2.jpg", canny_out);
+       
+        Imgproc.findContours(canny_out, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);        
+   
+        Highgui.imwrite(fileLoc + "template-output3.jpg", canny_out);
+        
+        Imgproc.drawContours(canny_out, contours, -1, new Scalar(255,0,0), 1);
+    	
+        Highgui.imwrite(fileLoc + "template-output4.jpg", canny_out);
+
+
+
 //    	loop:
     	
 // 		Extract Feature
