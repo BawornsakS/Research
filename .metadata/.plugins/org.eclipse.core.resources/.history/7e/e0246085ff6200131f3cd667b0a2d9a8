@@ -1,0 +1,38 @@
+import java.io.DataInputStream;
+import java.io.IOException;
+
+
+public class Simulation {
+
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) {
+		
+		World world1 = new World();
+		
+		Item i1 = new Item("i1", 10, 80);
+		Item i2 = new Item("i2", 45, 45);
+		
+		Robot r = new Robot("TestBot", 50, 0, 0);
+		
+		world1.addItem(i1);
+		world1.addItem(i2);
+		world1.addRobot(r);
+		
+		int i = 0;
+		
+		while( i<500){
+			
+			i1.updateAngle(r);
+			i2.updateAngle(r);
+			
+			
+			
+			
+			i++;
+		}
+		
+	
+		
+	}
+
+}

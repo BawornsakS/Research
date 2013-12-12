@@ -1,0 +1,46 @@
+
+public class Robot {
+	
+	String name;
+	Item trackedItem;
+	double x;
+	double y;
+	double orientation;
+	
+	public Robot(String name, double x, double y, double orientation){
+		this.name = name;
+		this.x = x;
+		this.y = y;
+		this.orientation = orientation;
+	}
+	
+	public void setOrientation(double o){
+		this.orientation = o;
+	}
+
+
+	public void setTrack(Item i) {
+		this.trackedItem = i;
+	}
+
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+	
+	public double getO() {
+		return o;
+	}
+
+	public double getOrientation() {
+		return orientation;
+	}
+
+	public Item getTrackedItem() {
+		return trackedItem;
+	}
+}

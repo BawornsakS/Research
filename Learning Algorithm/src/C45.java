@@ -29,7 +29,7 @@ public class C45 {
 
 	final static Charset ENCODING = StandardCharsets.UTF_8;
 	final static String CONFIG = "C:/Users/Bawornsak.S/Desktop/Research/Data/config.txt";
-	final static String FILE_NAME = "C:/Users/Bawornsak.S/Desktop/Research/Data/iris.csv";
+	final static String FILE_NAME = "C:/Users/Bawornsak.S/Desktop/Research/Data/test.csv";
 
 	public static void main(String[] args) throws Exception {
 		
@@ -148,6 +148,9 @@ public class C45 {
 		J48 result = new J48();
 		result.setOptions(options); 		// set the options
 		
+
+
+		
 		if(alias){
 			for(String s :hiddenAttribute){
 
@@ -195,6 +198,11 @@ public class C45 {
 			}
 			System.out.println(hiddenAttributeUsed);
 		}
+		else{
+			solved = original;
+			result.buildClassifier(solved);
+;
+		}
 		//----------------------------------------------------------------
 		// Output a New File (16.9: Saving Data)
 		//----------------------------------------------------------------
@@ -202,7 +210,7 @@ public class C45 {
 		
 		// output a new data file
 		
-		DataSink.write("C:/Users/Bawornsak.S/Desktop/Research/Data/iris-new.csv", solved);
+		DataSink.write("C:/Users/Bawornsak.S/Desktop/Research/Data/test-n.csv", solved);
 		
 		// output a new config file
 

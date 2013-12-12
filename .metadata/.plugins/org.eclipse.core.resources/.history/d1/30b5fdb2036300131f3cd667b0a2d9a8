@@ -1,0 +1,63 @@
+import java.io.DataInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
+
+public class Simulation {
+
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+		
+		World world1 = new World();
+		
+		Item i1 = new Item("i1", 20, 40);
+		Item i2 = new Item("i2", 45, 45);
+		
+		Robot r = new Robot("TestBot", 50, 0, 180);
+		
+		world1.addItem(i1);
+		world1.addItem(i2);
+		world1.addRobot(r);
+		
+		int i = 0;
+		String action = "";
+		PrintWriter writer = new PrintWriter("C:/Users/Bawornsak.S/Desktop/Research/Data/test.csv", "UTF-8");
+
+		writer.println("Class,T1,H1");
+		
+		
+		while( i< 200){
+			
+			i1.updatePolar(r);
+			i2.updatePolar(r);
+			
+			if(i1.getA() - r.getOrientation() > 5){
+				action = "left";
+				r.setOrientation(r.getOrientation() + 1);
+			}
+			else if(i1.getA() - r.getOrientation() < -5){
+				action = "right";
+				r.setOrientation(r.getOrientation() - 1);
+			}
+			else
+				action = "stop";
+			
+			System.out.println("Action : " + action + "\t Robot Orientation : " + r.getOrientation() + "\t Object Orientation : " + i1.getA());
+			
+			
+			writer.println(action +","+i1.getA() + "," + r.getOrientation());
+
+			
+			i++;
+		}
+		
+		writer.close();
+
+//		System.out.println(i1.getR());
+//		System.out.println(i1.getA());
+//		
+	}
+
+}

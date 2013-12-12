@@ -8,11 +8,17 @@ public class World {
 	Robot r;
 	double width;
 	double length;
+	double light;
 	
 	public World(){
 		this.items = new ArrayList<Item>();
 		this.width = 100;
 		this.length = 100;
+		light = 0;
+	}
+	
+	public void setLight(double n){
+		this.light = n;
 	}
 	
 	public void addItem(Item item){
@@ -25,6 +31,10 @@ public class World {
 
 	public List<Item> getItems() {
 		return items;
+	}
+	
+	public double getLight(){
+		return light;
 	}
 
 }

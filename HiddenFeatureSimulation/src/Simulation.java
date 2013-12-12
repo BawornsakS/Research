@@ -1,92 +1,88 @@
 import java.io.DataInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 
 public class Simulation {
 
 	@SuppressWarnings("deprecation")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		
 		World world1 = new World();
 		
-		Item i1 = new Item("i1", 0, 90);
+		Item i1 = new Item("i1", 20, 40);
 		Item i2 = new Item("i2", 45, 45);
 		
-		Robot r = new Robot("TestBot", 0, 0, 0);
+		Robot r = new Robot("TestBot", 50, 0, 180);
 		
 		world1.addItem(i1);
 		world1.addItem(i2);
 		world1.addRobot(r);
 		
-		
-		double angle = Math.atan((i1.getY()-r.getY())/(i1.getX()-r.getX()));
-		angle = 90 - Math.toDegrees(angle);
-		
-		r.setOrientation(angle);
-		
-		
-		boolean tracking = true;
-		DataInputStream d = new DataInputStream(System.in);
+		int i = 0;
+		String action = "";
+		PrintWriter writer = new PrintWriter("C:/Users/Bawornsak.S/Desktop/Research/Data/test.csv", "UTF-8");
 
-		System.out.println("which item to track?");
-		String in = "";
-		try {
-			in = d.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		writer.println("Class,robot,i1,i2,light");
 		
-		Item tracked = null;
 		
-		for(Item i : world1.getItems())
-		{
-			if(in.compareTo(i.getName())== 0){
-				r.setTrack(i);
-				tracked = i;
-				break;
+		while( i< 1000){
+			
+			i1.updatePolar(r);
+			i2.updatePolar(r);
+			
+			
+			if(world1.getLight() == 0){
+				if(i1.getA() > 2){
+					action = "left";
+					r.setOrientation(r.getOrientation() + 1);
+				}
+				else if(i1.getA() < -2){
+					action = "right";
+					r.setOrientation(r.getOrientation() - 1);
+				}
+				else
+					action = "stop";
 			}
-		}
-		
-		
-		while(true){
-			
-			String newX = "";
-			String newY = "";
-			
-			System.out.println(tracked.getName() + "'s new x: ");
-			try {
-				newX = d.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			System.out.println(tracked.getName() + "'s new y: ");
-			try {
-				newY = d.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
+			else{
+				if(i2.getA() > 2){
+					action = "left";
+					r.setOrientation(r.getOrientation() + 1);
+				}
+				else if(i2.getA() < -2){
+					action = "right";
+					r.setOrientation(r.getOrientation() - 1);
+				}
+				else
+					action = "stop";
 			}
 			
-			
-			tracked.setPosition(Double.parseDouble(newX), Double.parseDouble(newY));
-			
-			angle = Math.atan((tracked.getY()-r.getY())/(tracked.getX()-r.getX()));
-			angle = 90 - Math.toDegrees(angle);
-			
-			r.setOrientation(angle);
+		//	System.out.println("Action : " + action + "\t Robot Orientation : " + r.getOrientation() + "\t Object Orientation : " + i1.getA());
 			
 			
-			System.out.println("Orientation : " + r.getOrientation());
+			i1.randomMove();
+			i2.randomMove();
 			
+			if(i > 500)
+				world1.setLight(1);
 			
+			writer.println(action + "," +
+							r.getOrientation()+","+
+							i1.getA() + "," +
+							i2.getA() + "," +
+							world1.getLight());
+
 			
-			if(in.compareTo("y") == 0)
-				tracking = true;
-			else
-				tracking = false;
-			
+			i++;
 		}
 		
+		writer.close();
+
+//		System.out.println(i1.getR());
+//		System.out.println(i1.getA());
+//		
 	}
 
 }

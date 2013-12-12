@@ -1,0 +1,39 @@
+
+public class Item {
+	
+	String name;
+	double x;
+	double y;
+	double r;	// polar
+	double a;	// polar
+	
+	public Item(String name, double x, double y){
+		this.name = name;
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void updateAngle(Robot robot){
+		r = Math.sqrt((Math.pow(this.x - robot.getX() , 2) + Math.pow(this.y - robot.getY() , 2))); 
+		a = Math.atan((this.y - robot.getY())/(this.x - robot.getX()));
+		a = 90 - Math.toDegrees(a);
+	}
+	
+	public void setPosition(double x, double y){
+		this.x = x;
+		this.y = y;
+	}
+
+	public double getX() {
+		return x;
+	}
+	
+	public double getY() {
+		return y;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+}

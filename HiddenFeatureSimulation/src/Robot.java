@@ -31,7 +31,8 @@ public class Robot {
 	public double getY() {
 		return y;
 	}
-
+	
+	
 	public double getOrientation() {
 		return orientation;
 	}
